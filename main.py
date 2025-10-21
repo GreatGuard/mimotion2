@@ -81,6 +81,17 @@ def get_error_code(location):
         return None
     return result[0]
 
+# 推送server
+def push_wx(title, content):
+    server_url = f"https://sctapi.ftqq.com/{PUSH_PLUS_TOKEN}.send"
+    params = {
+        "text": title,
+        "desp": content
+    }
+
+    response = requests.get(server_url, params=params).text
+    print(response)
+
 
 # pushplus消息推送
 def push_plus(title, content):
@@ -228,7 +239,8 @@ def push_to_push_plus(exec_results, summary):
                 else:
                     html += f'<li><span>账号：{exec_result["user"]}</span>刷步数失败，失败原因：{exec_result["msg"]}</li>'
             html += '</ul>'
-        push_plus(f"{format_now()} 刷步数通知", html)
+        #push_plus(f"{format_now()} 刷步数通知", html)
+        push_wx(f"{format_now()} 刷步数通知", html)
 
 
 def run_single_account(total, idx, user_mi, passwd_mi):
